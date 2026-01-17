@@ -9,6 +9,7 @@
 #include "misc/wintouchemu.h"
 #include "hooks/graphics/graphics.h"
 #include "bi2a_hook.h"
+#include "bi2x_hook.h"
 
 namespace games::mfg {
     std::string MFG_INJECT_ARGS = "";
@@ -28,7 +29,7 @@ namespace games::mfg {
         SetEnvironmentVariableA("VFG_CABINET_TYPE", MFG_CABINET_TYPE.c_str());
 
         // add card reader
-        portName = (MFG_CABINET_TYPE == "UKS") ? std::wstring(L"\\\\.\\COM1") : std::wstring(L"\\\\.\\COM3");
+        portName = (MFG_CABINET_TYPE == "UKS" || MFG_CABINET_TYPE == "UJK") ? std::wstring(L"\\\\.\\COM1") : std::wstring(L"\\\\.\\COM3");
         acioHandle = new acioemu::ACIOHandle(portName.c_str(), 1);
         devicehook_init_trampoline();
         devicehook_add(acioHandle);
@@ -60,6 +61,8 @@ namespace games::mfg {
             // insert BI2* hooks
             if (MFG_CABINET_TYPE == "UKS") {
                 log_fatal("mfg", "UKS io is not supported");
+            } else if (MFG_CABINET_TYPE == "UJK") {
+                bi2x_hook_init();
             } else {
                 bi2a_hook_init();
             }

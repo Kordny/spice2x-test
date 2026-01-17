@@ -1962,6 +1962,7 @@ static const std::vector<OptionDefinition> OPTION_DEFINITIONS = {
             {"B", "B"},
             {"C", "C"},
             {"UKS", "UKS"},
+            {"UJK", "UJK"},
         },
     },
     {
