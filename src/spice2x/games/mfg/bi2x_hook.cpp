@@ -155,7 +155,7 @@ namespace games::mfg {
         uint16_t m_OnTime;
         uint16_t m_OffTime;
     };
-
+    //checkd good
     struct AIO_IOB2_BI2X_AC1__SETTING {
         AIO_IOB2_BI2X_AC1__SETTING_COIN m_aCoin[4];
         AIO_IOB2_BI2X_AC1__SETTING_COUNTER m_aCounter[4];
@@ -220,6 +220,7 @@ namespace games::mfg {
     typedef int32_t (__fastcall *aioNodeCtl_GetState_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl);
     typedef bool (__fastcall *aioNodeCtl_IsReady_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, int32_t i_State);
     typedef bool (__fastcall *aioNodeCtl_IsError_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, int32_t i_State);
+    typedef void(__fastcall *aioNodeCtl_UpdateDevicesStatus_t)();
 
     // libaio-iob2_video.dll
     typedef void (__fastcall *aioIob2Bi2xAC1_SetOutputData_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_CnPin, uint8_t i_Data);
@@ -239,7 +240,8 @@ namespace games::mfg {
     typedef void (__fastcall *aioIob2Bi2xAC1_SetIccrLed_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_RGB);
     typedef void (__fastcall *aioIob2Bi2xAC1_SetStickLed_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_RGB);
     typedef void (__fastcall *aioIob2Bi2xAC1_SetTapeLedData_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_TapeLed, uint8_t *i_pData);
-
+    typedef void (__fastcall *aioIob2Bi2x_SetTapeLedDataGroup_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint8_t i_bfGroup);
+    typedef void (__fastcall *aioIob2Bi2x_SetTapeLedDataLimit_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_Channel, uint8_t i_Scale, uint8_t i_Limit);
     typedef AIO_IOB2_BI2X_WRFIRM* (__fastcall *aioIob2Bi2x_CreateWriteFirmContext_t)(uint32_t i_SerialNumber,
                                                                                      uint32_t i_bfIob);
     typedef void (__fastcall *aioIob2Bi2x_DestroyWriteFirmContext_t)(AIO_IOB2_BI2X_WRFIRM *i_pWrFirm);
@@ -277,6 +279,8 @@ namespace games::mfg {
     static aioNodeCtl_GetState_t aioNodeCtl_GetState_orig = nullptr;
     static aioNodeCtl_IsReady_t aioNodeCtl_IsReady_orig = nullptr;
     static aioNodeCtl_IsError_t aioNodeCtl_IsError_orig = nullptr;
+    static aioNodeCtl_UpdateDevicesStatus_t aioNodeCtl_UpdateDevicesStatus_orig = nullptr;
+
 
     // libaio-iob2_video.dll
     static aioIob2Bi2xAC1_SetOutputData_t aioIob2Bi2xAC1_SetOutputData_orig = nullptr;
@@ -299,6 +303,9 @@ namespace games::mfg {
     static aioIob2Bi2x_WriteFirmGetState_t aioIob2Bi2x_WriteFirmGetState_orig = nullptr;
     static aioIob2Bi2x_WriteFirmIsCompleted_t aioIob2Bi2x_WriteFirmIsCompleted_orig = nullptr;
     static aioIob2Bi2x_WriteFirmIsError_t aioIob2Bi2x_WriteFirmIsError_orig = nullptr;
+    static aioIob2Bi2x_SetTapeLedDataGroup_t aioIob2Bi2x_SetTapeLedDataGroup_orig = nullptr;
+    static aioIob2Bi2x_SetTapeLedDataLimit_t aioIob2Bi2x_SetTapeLedDataLimit_orig = nullptr;
+
 
     /*
      * variables
@@ -562,6 +569,16 @@ namespace games::mfg {
         // handle stick led
     }
 
+    static void __fastcall aioIob2Bi2x_SetTapeLedDataGroup(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint8_t i_bfGroup) {
+        log_info("bi2x_hook", "aioIob2Bi2x_SetTapeLedDataGroup");
+        return aioIob2Bi2x_SetTapeLedDataGroup_orig(i_pNodeCtl, i_bfGroup);
+    }
+
+    static void __fastcall aioIob2Bi2x_SetTapeLedDataLimit(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_Channel, uint8_t i_Scale, uint8_t i_Limit) {
+        log_info("bi2x_hook", "aioIob2Bi2x_SetTapeLedDataLimit");
+        return aioIob2Bi2x_SetTapeLedDataLimit_orig(i_pNodeCtl, i_Channel, i_Scale, i_Limit);
+    }
+
     static void __fastcall aioIob2Bi2xAC1_SetTapeLedData(
         AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_TapeLed, uint8_t *i_pData) {
 
@@ -728,6 +745,9 @@ namespace games::mfg {
         }
     }
 
+    static void __fastcall aioNodeCtl_UpdateDevicesStatus() {
+    }
+
     void bi2x_hook_init() {
         // avoid double init
         static bool initialized = false;
@@ -789,6 +809,10 @@ namespace games::mfg {
                                aioIob2Bi2x_WriteFirmIsError, &aioIob2Bi2x_WriteFirmIsError_orig);
         execexe::trampoline_try(libaioIob2VideoDll, "aioIob2Bi2xAC1_SetOutputData",
                                aioIob2Bi2xAC1_SetOutputData, &aioIob2Bi2xAC1_SetOutputData_orig);
+        execexe::trampoline_try(libaioIob2VideoDll, "aioIob2Bi2x_SetTapeLedDataGroup",
+                               aioIob2Bi2x_SetTapeLedDataGroup, &aioIob2Bi2x_SetTapeLedDataGroup_orig);
+        execexe::trampoline_try(libaioIob2VideoDll, "aioIob2Bi2x_SetTapeLedDataLimit",
+                               aioIob2Bi2x_SetTapeLedDataLimit, &aioIob2Bi2x_SetTapeLedDataLimit_orig);
 
 
         // libaio-iob.dll
@@ -819,5 +843,7 @@ namespace games::mfg {
                                aioNodeCtl_IsReady, &aioNodeCtl_IsReady_orig);
         execexe::trampoline_try(libaioDll, "aioNodeCtl_IsError",
                                aioNodeCtl_IsError, &aioNodeCtl_IsError_orig);
+        execexe::trampoline_try(libaioDll, "aioNodeCtl_UpdateDevicesStatus",
+                               aioNodeCtl_UpdateDevicesStatus, &aioNodeCtl_UpdateDevicesStatus_orig);
     }
 }
