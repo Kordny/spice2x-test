@@ -29,22 +29,22 @@ namespace games::mfg {
 
     struct AIO_IOB2_BI2X_WRFIRM {
     };
-
+    //good
     struct AIO_NMGR_IOB__NODEINFO {
         uint8_t data[0xA3];
     };
 
     struct AIO_IOB2_BI2X_AC1 {
     };
-
+    //good
     struct AIO_IOB2_BI2X_AC1__INPUTDATA {
         uint8_t data[241];
     };
-
+    //good
     struct AIO_IOB2_BI2X_AC1__OUTPUTDATA {
         uint8_t data[48];
     };
-
+    //good
     struct AIO_IOB2_BI2X_AC1__INPUT {
         uint8_t DevIoCounter;
         uint8_t bExIoAErr;
@@ -120,16 +120,16 @@ namespace games::mfg {
         uint8_t CN19_14;
         uint8_t CN19_15;
     };
-
+    //good
     struct AIO_IOB2_BI2X_AC1__IORESETDATA {
         uint8_t Data[4];
     };
-
+    //good
     struct AIO_IOB2_BI2X_AC1__ICNPIN {
         uint16_t Ain[4];
         uint64_t CnPin;
     };
-
+    //good
     struct AIO_IOB2_BI2X_AC1__SETTING_COIN {
         uint8_t m_Connector;
         uint8_t m_Pin;
@@ -137,7 +137,7 @@ namespace games::mfg {
         uint8_t m_OffTime;
         uint16_t m_JamTimeout;
     };
-
+    //good
     struct AIO_IOB2_BI2X_AC1__SETTING_AMPVOL {
         uint8_t m_CnDown;
         uint8_t m_PinDown;
@@ -148,7 +148,7 @@ namespace games::mfg {
         uint16_t m_OnTime;
         uint16_t m_OffTime;
     };
-
+    //good
     struct AIO_IOB2_BI2X_AC1__SETTING_COUNTER {
         uint8_t m_Connector;
         uint8_t m_Pin;
@@ -170,7 +170,7 @@ namespace games::mfg {
         uint8_t m_SciCmdPort;
         uint8_t m_bEnablePcPwrCtl;
     };
-
+    //good
     struct AIO_IOB2_BI2X_AC1__DEVSTATUS {
         uint8_t InputCounter;
         uint8_t OutputCounter;
@@ -189,7 +189,6 @@ namespace games::mfg {
      */
 
     // libaio-iob_video.dll
-    typedef AIO_SCI_COMM* (__fastcall *aioIob2Bi2x_OpenSciUsbCdc_t)(uint32_t i_SerialNumber);
     typedef AIO_IOB_BI2A_VFG2* (__fastcall *aioIobBi2aVFG2_Create_t)(AIO_NMGR_IOB2 *i_pNodeMgr, uint32_t i_DevId);
     typedef void (__fastcall *aioIobBi2aVFG2_SetMechType_t)(AIO_IOB_BI2A_VFG2 *i_pNodeCtl, uint32_t i_MechType);
     typedef void (__fastcall *aioIobBi2aVFG2_SetWatchDogTimer_t)(AIO_IOB_BI2A_VFG2* i_pNodeCtl, uint16_t i_Count);
@@ -223,17 +222,18 @@ namespace games::mfg {
     typedef void(__fastcall *aioNodeCtl_UpdateDevicesStatus_t)();
 
     // libaio-iob2_video.dll
+    typedef AIO_SCI_COMM* (__fastcall *aioIob2Bi2x_OpenSciUsbCdc_t)(uint32_t i_SerialNumber);
     typedef void (__fastcall *aioIob2Bi2xAC1_SetOutputData_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_CnPin, uint8_t i_Data);
     typedef AIO_IOB2_BI2X_AC1* (__fastcall *aioIob2Bi2xAC1_Create_t)(AIO_NMGR_IOB2 *i_pNodeMgr, uint32_t i_DevId, AIO_IOB2_BI2X_AC1__SETTING *i_pSetting, uint32_t i_cbSetting);
     typedef void (__fastcall *aioIob2Bi2xAC1_GetDeviceStatus_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl,
-                                                                AIO_IOB2_BI2X_AC1__DEVSTATUS *o_DevStatus);
+                                                                AIO_IOB2_BI2X_AC1__DEVSTATUS *o_pDevStatus, uint32_t i_cbDevStatus);
     typedef void (__fastcall *aioIob2Bi2xAC1_IoReset_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_bfIoReset);
     typedef void (__fastcall *aioIob2Bi2xAC1_SetWatchDogTimer_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint8_t i_Count);
     typedef void (__fastcall *aioIob2Bi2xAC1_ControlCoinBlocker_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_Slot,
                                                                    bool i_bOpen);
     typedef void (__fastcall *aioIob2Bi2xAC1_AddCounter_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_Counter,
                                                            uint32_t i_Count);
-    typedef void (__fastcall *aioIob2Bi2xAC1_SetAmpVolume_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_Volume);
+    typedef void (__fastcall *aioIob2Bi2xAC1_SetAmpVolume_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_Amp, uint32_t i_Volume);
     typedef void (__fastcall *aioIob2Bi2xAC1_EnableUsbCharger_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, bool i_bEnable);
     typedef void (__fastcall *aioIob2Bi2xAC1_SetIrLed_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, bool i_bOn);
     typedef void (__fastcall *aioIob2Bi2xAC1_SetButton0Lamp_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, bool i_bOn);
@@ -242,12 +242,14 @@ namespace games::mfg {
     typedef void (__fastcall *aioIob2Bi2xAC1_SetTapeLedData_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_TapeLed, uint8_t *i_pData);
     typedef void (__fastcall *aioIob2Bi2x_SetTapeLedDataGroup_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint8_t i_bfGroup);
     typedef void (__fastcall *aioIob2Bi2x_SetTapeLedDataLimit_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_Channel, uint8_t i_Scale, uint8_t i_Limit);
+    typedef void (__fastcall *aioIob2Bi2xAC1_SetTapeLedDataPart_t)(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_TapeLedCh, uint32_t i_Offset, uint8_t i_pData[], uint32_t i_cntTapeLed, bool i_bReverse);
     typedef AIO_IOB2_BI2X_WRFIRM* (__fastcall *aioIob2Bi2x_CreateWriteFirmContext_t)(uint32_t i_SerialNumber,
                                                                                      uint32_t i_bfIob);
     typedef void (__fastcall *aioIob2Bi2x_DestroyWriteFirmContext_t)(AIO_IOB2_BI2X_WRFIRM *i_pWrFirm);
     typedef int32_t (__fastcall *aioIob2Bi2x_WriteFirmGetState_t)(AIO_IOB2_BI2X_WRFIRM *i_pWrFirm);
     typedef bool (__fastcall *aioIob2Bi2x_WriteFirmIsCompleted_t)(int32_t i_State);
     typedef bool (__fastcall *aioIob2Bi2x_WriteFirmIsError_t)(int32_t i_State);
+
 
     /*
      * function pointers
@@ -305,6 +307,7 @@ namespace games::mfg {
     static aioIob2Bi2x_WriteFirmIsError_t aioIob2Bi2x_WriteFirmIsError_orig = nullptr;
     static aioIob2Bi2x_SetTapeLedDataGroup_t aioIob2Bi2x_SetTapeLedDataGroup_orig = nullptr;
     static aioIob2Bi2x_SetTapeLedDataLimit_t aioIob2Bi2x_SetTapeLedDataLimit_orig = nullptr;
+    static aioIob2Bi2xAC1_SetTapeLedDataPart_t aioIob2Bi2xAC1_SetTapeLedDataPart_orig = nullptr;
 
 
     /*
@@ -407,61 +410,61 @@ namespace games::mfg {
     }
 
     static void __fastcall aioIob2Bi2xAC1_GetDeviceStatus(
-        AIO_IOB2_BI2X_AC1 *i_pNodeCtl, AIO_IOB2_BI2X_AC1__DEVSTATUS *o_DevStatus) {
+        AIO_IOB2_BI2X_AC1 *i_pNodeCtl, AIO_IOB2_BI2X_AC1__DEVSTATUS *o_pDevStatus, uint32_t i_cbDevStatus) {
 
         RI_MGR->devices_flush_output();
 
         if (i_pNodeCtl != aioIob2Bi2xAc1) {
-            return aioIob2Bi2xAC1_GetDeviceStatus_orig(i_pNodeCtl, o_DevStatus);
+            return aioIob2Bi2xAC1_GetDeviceStatus_orig(i_pNodeCtl, o_pDevStatus, i_cbDevStatus);
         }
 
-        memset(o_DevStatus, 0x00, sizeof(AIO_IOB2_BI2X_AC1__DEVSTATUS));
+        memset(o_pDevStatus, 0x00, sizeof(AIO_IOB2_BI2X_AC1__DEVSTATUS));
 
         auto &buttons = get_buttons();
 
-        o_DevStatus->Input.DevIoCounter = count;
-        o_DevStatus->InputCounter = count;
-        o_DevStatus->Input.CN11_13 = 1; // Alive flag?
-        o_DevStatus->Input.CN8_8 = 1;
-        o_DevStatus->Input.CN8_9 = 1;
-        o_DevStatus->Input.CN8_10 = 1;
-        o_DevStatus->Input.CN15_3 = 0;
-        o_DevStatus->Input.CN15_4 = 0;
-        o_DevStatus->Input.CN15_5 = 0;
-        o_DevStatus->Input.CN15_8 = 1;
-        o_DevStatus->Input.CN12_12 = 0;
-        o_DevStatus->Input.CN12_13 = 0;
+        o_pDevStatus->Input.DevIoCounter = count;
+        o_pDevStatus->InputCounter = count;
+        o_pDevStatus->Input.CN11_13 = 1; // Alive flag?
+        o_pDevStatus->Input.CN8_8 = 1;
+        o_pDevStatus->Input.CN8_9 = 1;
+        o_pDevStatus->Input.CN8_10 = 1;
+        o_pDevStatus->Input.CN15_3 = 0;
+        o_pDevStatus->Input.CN15_4 = 0;
+        o_pDevStatus->Input.CN15_5 = 0;
+        o_pDevStatus->Input.CN15_8 = 1;
+        o_pDevStatus->Input.CN12_12 = 0;
+        o_pDevStatus->Input.CN12_13 = 0;
 
         if (GameAPI::Buttons::getState(RI_MGR, buttons[Buttons::Test])) {
-            o_DevStatus->Input.CN8_8 = 0;
+            o_pDevStatus->Input.CN8_8 = 0;
         }
         if (GameAPI::Buttons::getState(RI_MGR, buttons[Buttons::Service])) {
-            o_DevStatus->Input.CN8_9 = 0;
+            o_pDevStatus->Input.CN8_9 = 0;
         }
         if (GameAPI::Buttons::getState(RI_MGR, buttons[Buttons::CoinMech])) {
-            o_DevStatus->Input.CN8_10 = 0;
+            o_pDevStatus->Input.CN8_10 = 0;
             eamuse_coin_add();
         }
         if (GameAPI::Buttons::getState(RI_MGR, buttons[Buttons::QButton1])) {
-            o_DevStatus->Input.CN15_3 = 1;
+            o_pDevStatus->Input.CN15_3 = 1;
         }
         if (GameAPI::Buttons::getState(RI_MGR, buttons[Buttons::QButton2])) {
-            o_DevStatus->Input.CN15_4 = 1;
+            o_pDevStatus->Input.CN15_4 = 1;
         }
         if (GameAPI::Buttons::getState(RI_MGR, buttons[Buttons::QButton3])) {
-            o_DevStatus->Input.CN15_5 = 1;
+            o_pDevStatus->Input.CN15_5 = 1;
         }
         if (GameAPI::Buttons::getState(RI_MGR, buttons[Buttons::QButton])) {
-            o_DevStatus->Input.CN15_8 = 0;
+            o_pDevStatus->Input.CN15_8 = 0;
         }
         if (GameAPI::Buttons::getState(RI_MGR, buttons[Buttons::JackDetect])) {
-            o_DevStatus->Input.CN12_12 = 1;
+            o_pDevStatus->Input.CN12_12 = 1;
         }
         if (GameAPI::Buttons::getState(RI_MGR, buttons[Buttons::MicDetect])) {
-            o_DevStatus->Input.CN12_13 = 1;
+            o_pDevStatus->Input.CN12_13 = 1;
         }
 
-        o_DevStatus->Input.Coin1Count = eamuse_coin_get_stock();
+        o_pDevStatus->Input.Coin1Count = eamuse_coin_get_stock();
 
         count++;
     }
@@ -505,10 +508,10 @@ namespace games::mfg {
     }
 
     static void __fastcall aioIob2Bi2xAC1_SetAmpVolume(
-        AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_Volume) {
+        AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_Amp, uint32_t i_Volume) {
 
         if (i_pNodeCtl != aioIob2Bi2xAc1) {
-            return aioIob2Bi2xAC1_SetAmpVolume_orig(i_pNodeCtl, i_Volume);
+            return aioIob2Bi2xAC1_SetAmpVolume_orig(i_pNodeCtl, i_Amp ,i_Volume);
         }
     }
 
@@ -610,6 +613,11 @@ namespace games::mfg {
             GameAPI::Lights::writeLight(RI_MGR, lights[map.g], rgb.g);
             GameAPI::Lights::writeLight(RI_MGR, lights[map.b], rgb.b);
         }
+    }
+
+    static void __fastcall aioIob2Bi2xAC1_SetTapeLedDataPart(AIO_IOB2_BI2X_AC1 *i_pNodeCtl, uint32_t i_TapeLedCh, uint32_t i_Offset, uint8_t i_pData[], uint32_t i_cntTapeLed, bool i_bReverse) {
+        // TODO: LED tape impl
+        // return aioIob2Bi2xAC1_SetTapeLedDataPart_orig(i_pNodeCtl, i_TapeLedCh, i_Offset, i_pData, i_cntTapeLed, i_bReverse);
     }
 
     static AIO_SCI_COMM* __fastcall aioIob2Bi2x_OpenSciUsbCdc(uint32_t i_SerialNumber) {
@@ -813,6 +821,8 @@ namespace games::mfg {
                                aioIob2Bi2x_SetTapeLedDataGroup, &aioIob2Bi2x_SetTapeLedDataGroup_orig);
         execexe::trampoline_try(libaioIob2VideoDll, "aioIob2Bi2x_SetTapeLedDataLimit",
                                aioIob2Bi2x_SetTapeLedDataLimit, &aioIob2Bi2x_SetTapeLedDataLimit_orig);
+        execexe::trampoline_try(libaioIob2VideoDll, "aioIob2Bi2xAC1_SetTapeLedDataPart",
+                               aioIob2Bi2xAC1_SetTapeLedDataPart, &aioIob2Bi2xAC1_SetTapeLedDataPart_orig);
 
 
         // libaio-iob.dll

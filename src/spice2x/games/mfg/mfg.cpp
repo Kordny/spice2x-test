@@ -62,7 +62,9 @@ namespace games::mfg {
             if (MFG_CABINET_TYPE == "UKS") {
                 log_fatal("mfg", "UKS io is not supported");
             } else if (MFG_CABINET_TYPE == "UJK") {
+                #if SPICE64
                 bi2x_hook_init();
+                #endif
             } else {
                 bi2a_hook_init();
             }
